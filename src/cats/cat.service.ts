@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { agent } from 'supertest';
 
 export enum CatType {
   old = 'old',
@@ -31,5 +32,27 @@ export class CatsService {
       return this.cats.filter((c) => c.type === type);
     }
     return this.getAllCats();
+  }
+  addCat(name: string, age: number) {
+    this.cats.push({
+      id: this.cats.length.toString(),
+      name,
+      age,
+      type: age > 10 ? CatType.old : CatType.young,
+    });
+  }
+  updateCatById(id: string, body: any) {
+    this.cats = this.cats.map((c) => {
+      if (c.id === id) {
+        return {
+          ...c,
+          ...body,
+        };
+      }
+      return c;
+    });
+  }
+  deleteCatById(id: string) {
+    this.cats = this.cats.filter((c) => c.id !== id);
   }
 }
