@@ -12,6 +12,8 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { CatsService, Cat, CatType } from './cat.service';
+import { CreateCatDto } from './dto/create-cat.dto';
+import { UpdateCatDto } from './dto/update-cat.dto';
 
 @Controller('cats')
 export class CatsController {
@@ -31,11 +33,11 @@ export class CatsController {
     return cat;
   }
   @Post()
-  addCat(@Body() body: { name: string; age: number }) {
+  addCat(@Body() body: CreateCatDto) {
     this.catsService.addCat(body.name, body.age);
   }
   @Put(':id')
-  update(@Param('id') id, @Body() body) {
+  update(@Param('id') id, @Body() body: UpdateCatDto) {
     this.catsService.updateCatById(id, body);
   }
   @Delete(':id')
