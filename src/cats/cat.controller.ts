@@ -25,8 +25,9 @@ export class CatsController {
       .send(this.catsService.findCatsByType(type));
   }
   @Get(':id')
-  findCatById(@Param() param: { id: string }): Cat {
-    const cat = this.catsService.getCatById(param.id);
+  findCatById(@Param('id') id: number): Cat {
+    console.log(typeof id);
+    const cat = this.catsService.getCatById(id);
     if (!cat) {
       throw new NotFoundException('cat not find');
     }
@@ -34,10 +35,12 @@ export class CatsController {
   }
   @Post()
   addCat(@Body() body: CreateCatDto) {
-    this.catsService.addCat(body.name, body.age);
+    this.catsService.addCat(body);
+    return body;
   }
   @Put(':id')
-  update(@Param('id') id, @Body() body: UpdateCatDto) {
+  update(@Param('id') id: number, @Body() body: UpdateCatDto) {
+    console.log(typeof id);
     this.catsService.updateCatById(id, body);
   }
   @Delete(':id')
