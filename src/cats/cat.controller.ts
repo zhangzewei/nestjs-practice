@@ -9,6 +9,7 @@ import {
   Body,
   Put,
   Delete,
+  NotFoundException,
 } from '@nestjs/common';
 import { CatsService, Cat, CatType } from './cat.service';
 
@@ -23,17 +24,19 @@ export class CatsController {
   }
   @Get(':id')
   findCatById(@Param() param: { id: string }): Cat {
-    return this.catsService.getCatById(param.id);
+    const cat = this.catsService.getCatById(param.id);
+    if (!cat) {
+      throw new NotFoundException('cat not find');
+    }
+    return cat;
   }
   @Post()
   addCat(@Body() body: { name: string; age: number }) {
     this.catsService.addCat(body.name, body.age);
-    return 200;
   }
   @Put(':id')
   update(@Param('id') id, @Body() body) {
     this.catsService.updateCatById(id, body);
-    return 200;
   }
   @Delete(':id')
   deleteCat(@Param('id') id) {

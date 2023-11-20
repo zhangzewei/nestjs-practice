@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { agent } from 'supertest';
 
 export enum CatType {
   old = 'old',
