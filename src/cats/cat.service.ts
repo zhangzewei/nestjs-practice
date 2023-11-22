@@ -1,56 +1,18 @@
 import { Injectable } from '@nestjs/common';
-
-export enum CatType {
-  old = 'old',
-  young = 'young',
-}
-
-export class Cat {
-  id: number;
-  name: string;
-  age: number;
-  type: CatType;
-}
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { CreateCatDto } from './dto/create-cat.dto';
+import { Cat } from './schemas/cat.schema';
 
 @Injectable()
 export class CatsService {
-  cats: Cat[] = new Array(20).fill(0).map((_, index) => ({
-    id: index,
-    name: `cat_name_${index}`,
-    age: index + 1,
-    type: index + 1 > 10 ? CatType.old : CatType.young,
-  }));
-  getAllCats(): Cat[] {
-    return this.cats;
+  constructor(@InjectModel(Cat.name) private catModel: Model<Cat>) {}
+  async create(createCatDto: CreateCatDto): Promise<Cat> {
+    const createdCat = new this.catModel(createCatDto);
+    return createdCat.save();
   }
-  getCatById(id: number): Cat {
-    return this.cats.find((c) => c.id === id);
-  }
-  findCatsByType(type: CatType): Cat[] {
-    if (type) {
-      return this.cats.filter((c) => c.type === type);
-    }
-    return this.getAllCats();
-  }
-  addCat(body) {
-    this.cats.push({
-      id: this.cats.length,
-      ...body,
-      type: body.age > 10 ? CatType.old : CatType.young,
-    });
-  }
-  updateCatById(id: number, body: any) {
-    this.cats = this.cats.map((c) => {
-      if (c.id === id) {
-        return {
-          ...c,
-          ...body,
-        };
-      }
-      return c;
-    });
-  }
-  deleteCatById(id: number) {
-    this.cats = this.cats.filter((c) => c.id !== id);
+
+  async findAll(): Promise<Cat[]> {
+    return this.catModel.find().exec();
   }
 }

@@ -5,4 +5,6 @@ export class CreateCatDto {
   name: string;
   @IsNumber()
   age: number;
+  @IsString()
+  type: string;
 }
