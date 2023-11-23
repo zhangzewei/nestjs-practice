@@ -18,8 +18,8 @@ import { UpdateCatDto } from './dto/update-cat.dto';
 @Controller('cats')
 export class CatsController {
   constructor(private catsService: CatsService) {}
-  @Post()
-  addCat(@Body() body: CreateCatDto) {
-    return this.catsService.create(body);
+  @Get()
+  findAll() {
+    return this.catsService.findAll();
   }
 }
