@@ -3,15 +3,18 @@ import { CatsController } from './cat.controller';
 import { CatsService } from './cat.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Cat, CatSchema } from './schemas/cat.schema';
-
-const dbName = "pets";
+import { FoodService } from 'src/food/food.service';
+import { FoodModule } from 'src/food/food.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot(`mongodb+srv://lanamarkzzw:pass123@cluster0.zxzpzz8.mongodb.net/${dbName}?retryWrites=true&w=majority`),
-    MongooseModule.forFeature([{ name: Cat.name, schema: CatSchema }])
+    MongooseModule.forRoot(`mongodb+srv://lanamarkzzw:pass123@cluster0.zxzpzz8.mongodb.net/pets?retryWrites=true&w=majority`),
+    MongooseModule.forFeature([
+      { name: Cat.name, schema: CatSchema },
+    ]),
+    FoodModule
   ],
   controllers: [CatsController],
   providers: [CatsService],
 })
-export class CatModule {}
+export class CatsModule {}

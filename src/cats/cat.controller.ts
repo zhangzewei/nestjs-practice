@@ -22,4 +22,8 @@ export class CatsController {
   findAll() {
     return this.catsService.findAll();
   }
+  @Post()
+  create(@Body() body: CreateCatDto) {
+    return this.catsService.create(body);
+  }
 }

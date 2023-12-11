@@ -5,6 +5,6 @@ export class CreateCatDto {
   name: string;
   @IsNumber()
   age: number;
-  @IsString()
-  type: string;
+  @IsString({ each: true })
+  food: string[];
 }
