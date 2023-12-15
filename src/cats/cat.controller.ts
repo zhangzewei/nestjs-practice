@@ -1,19 +1,12 @@
 import {
   Controller,
   Get,
-  HttpStatus,
-  Param,
-  Query,
-  Res,
   Post,
   Body,
-  Put,
-  Delete,
-  NotFoundException,
+  Param,
 } from '@nestjs/common';
 import { CatsService } from './cat.service';
 import { CreateCatDto } from './dto/create-cat.dto';
-import { UpdateCatDto } from './dto/update-cat.dto';
 
 @Controller('cats')
 export class CatsController {
@@ -21,6 +14,10 @@ export class CatsController {
   @Get()
   findAll() {
     return this.catsService.findAll();
+  }
+  @Get(':id')
+  findOne(@Param('id') id) {
+    return this.catsService.findOne(id);
   }
   @Post()
   create(@Body() body: CreateCatDto) {
