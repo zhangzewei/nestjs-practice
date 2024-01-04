@@ -5,6 +5,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Cat, CatSchema } from './schemas/cat.schema';
 import { FoodModule } from 'src/food/food.module';
 import { FoodService } from 'src/food/food.service';
+import { ConfigModule } from '@nestjs/config';
+import catConfig from './catConfig';
 
 class Constants {
   getFoodList() {
@@ -15,7 +17,7 @@ class Constants {
 
 @Module({
   imports: [
-    MongooseModule.forRoot(`mongodb+srv://lanamarkzzw:pass123@cluster0.zxzpzz8.mongodb.net/pets?retryWrites=true&w=majority`),
+    ConfigModule.forFeature(catConfig),
     MongooseModule.forFeature([
       { name: Cat.name, schema: CatSchema },
     ]),
